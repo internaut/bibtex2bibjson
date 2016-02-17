@@ -12,6 +12,12 @@ CONVERT_TO_UNICODE = True
 
 
 def collection_from_bibtex_str(bib_str, **kwargs):
+    """
+    Transform a Bibtex string (e.g. from a .bib-file) to a BibJSON collection.
+    :param bib_str: input bibtex string
+    :param kwargs: metadata for the BibJSON collection. "collection" parameter must be set.
+    :return BibJSON collection dictionary
+    """
     bib_parser = BibTexParser()
     bib_parser.ignore_nonstandard_types = False     # this is flipped. this seems to be an error in the library
     bib_parser.customization = _parse_bib_entry
@@ -22,6 +28,12 @@ def collection_from_bibtex_str(bib_str, **kwargs):
 
 
 def collection_from_dict(entries, **kwargs):
+    """
+    Create collection from a dictionary of bibtex entries from bibtexparser.
+    :param entries: bibtex entries from bibtexparser.
+    :param kwargs: metadata for the BibJSON collection. "collection" parameter must be set.
+    :return BibJSON collection dictionary
+    """
     c = OrderedDict()
     c['metadata'] = OrderedDict()
     c['records'] = []
@@ -33,7 +45,6 @@ def collection_from_dict(entries, **kwargs):
             c['metadata'][k] = v
 
     # set records
-
     for key, entry in entries.items():
         c['records'].append(record_from_entry(key, entry, kwargs['collection']))
 
@@ -43,6 +54,14 @@ def collection_from_dict(entries, **kwargs):
 
 
 def record_from_entry(key, entry, collection):
+    """
+    Create a single BibJSON record from a BibTeX entry dictionary.
+    :param key: entry key (citekey)
+    :param entry: BibTeX entry dictionary
+    :param collection: collection name
+    :return BibJSON record
+    """
+    # create new record
     r = OrderedDict()
     r['type'] = entry['ENTRYTYPE']
     r['id'] = key
@@ -262,6 +281,11 @@ def _require_keys_in_entry(entry, keys, req_all):
 
 
 def _parse_bib_entry(entry):
+    """
+    Customization function for bibtexparser.
+    :param entry: bibtex record to modify
+    :return bibtex record
+    """
     if CONVERT_TO_UNICODE:
         entry = bib_custom.convert_to_unicode(entry)
 
