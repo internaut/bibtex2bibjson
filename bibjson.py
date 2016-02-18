@@ -68,7 +68,7 @@ def record_from_entry(key, entry, collection):
     r['citekey'] = key
     r['collection'] = collection
 
-    # call fill_record_<type> to convert entry to BibJSON dict
+    # call fill_record_<type> to convert entry of specific type to BibJSON dict
     fill_func = 'fill_record_%s' % r['type']
     call_fn = getattr(sys.modules[__name__], fill_func, None)
     if call_fn:
@@ -80,6 +80,12 @@ def record_from_entry(key, entry, collection):
 
 
 def fill_record_article(r, entry):
+    """
+    handle 'article' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('title', 'year', 'author', 'journal'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'year', 'note', 'key'))
@@ -89,6 +95,12 @@ def fill_record_article(r, entry):
 
 
 def fill_record_book(r, entry):
+    """
+    handle 'book' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('title', 'year', 'publisher'), req_all=True)
     _require_keys_in_entry(entry, ('author', 'editor'), req_all=False)
 
@@ -100,6 +112,12 @@ def fill_record_book(r, entry):
 
 
 def fill_record_booklet(r, entry):
+    """
+    handle 'booklet' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('title', ), req_all=True)
     _simple_fill(r, entry, ('title', 'howpublished', 'address', 'month', 'year', 'note', 'key'))
 
@@ -107,10 +125,22 @@ def fill_record_booklet(r, entry):
 
 
 def fill_record_conference(r, entry):
+    """
+    handle 'conference' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     fill_record_inproceedings(r, entry)
 
 
 def fill_record_electronic(r, entry):
+    """
+    handle 'electronic' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'title', 'howpublished'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'howpublished', 'month', 'year', 'note', 'key'))
@@ -119,6 +149,12 @@ def fill_record_electronic(r, entry):
 
 
 def fill_record_inbook(r, entry):
+    """
+    handle 'inbook' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'editor'), req_all=False)
     _require_keys_in_entry(entry, ('title', 'year', 'publisher'), req_all=True)
 
@@ -132,6 +168,12 @@ def fill_record_inbook(r, entry):
 
 
 def fill_record_incollection(r, entry):
+    """
+    handle 'incollection' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'publisher', 'title', 'year', 'booktitle'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'year', 'booktitle', 'note', 'key', 'volume', 'number', 'series', 'chapter',
@@ -143,6 +185,12 @@ def fill_record_incollection(r, entry):
 
 
 def fill_record_inproceedings(r, entry):
+    """
+    handle 'inproceedings' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'title', 'year', 'booktitle'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'year', 'booktitle', 'note', 'key', 'volume', 'number', 'series', 'organization',
@@ -154,6 +202,12 @@ def fill_record_inproceedings(r, entry):
 
 
 def fill_record_manual(r, entry):
+    """
+    handle 'manual' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'title'), req_all=True)
     _simple_fill(r, entry, ('title', 'address', 'organization', 'edition', 'month', 'year', 'note', 'key'))
 
@@ -161,16 +215,34 @@ def fill_record_manual(r, entry):
 
 
 def fill_record_mastersthesis(r, entry):
+    """
+    handle 'mastersthesis' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     fill_record_phdthesis(r, entry)
 
 
 def fill_record_misc(r, entry):
+    """
+    handle 'misc' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _simple_fill(r, entry, ('title', 'howpublished', 'month', 'year', 'note', 'key'))
 
     _fill_author(r, entry)
 
 
 def fill_record_periodical(r, entry):
+    """
+    handle 'periodical' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('title', 'year', 'number'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'year', 'number', 'organization', 'note', 'key'))
@@ -181,6 +253,12 @@ def fill_record_periodical(r, entry):
 
 
 def fill_record_phdthesis(r, entry):
+    """
+    handle 'phdthesis' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'title', 'school', 'year'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'school', 'year', 'address', 'month', 'note', 'key'))
@@ -189,6 +267,12 @@ def fill_record_phdthesis(r, entry):
 
 
 def fill_record_proceedings(r, entry):
+    """
+    handle 'proceedings' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('title', 'year'), req_all=True)
     _simple_fill(r, entry, ('title', 'year', 'volume', 'number', 'series', 'address', 'month', 'organization',
                  'note', 'key'))
@@ -198,6 +282,12 @@ def fill_record_proceedings(r, entry):
 
 
 def fill_record_techreport(r, entry):
+    """
+    handle 'techreport' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'title', 'institution', 'year'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'institution', 'year', 'number', 'address', 'month', 'note', 'key'))
@@ -207,6 +297,12 @@ def fill_record_techreport(r, entry):
 
 
 def fill_record_unpublished(r, entry):
+    """
+    handle 'unpublished' type
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     _require_keys_in_entry(entry, ('author', 'title', 'note'), req_all=True)
 
     _simple_fill(r, entry, ('title', 'note' 'month', 'year', 'key'))
@@ -215,12 +311,26 @@ def fill_record_unpublished(r, entry):
 
 
 def _simple_fill(r, entry, keys):
+    """
+    For each key in keys that exists in <entry>, assign its data to the record <r>
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :param keys: data keys to use
+    :return None
+    """
     for k in keys:
         if k in entry:
             r[k] = entry[k]
 
 
 def _simple_fill_one_of(r, entry, keys):
+    """
+    Do _simple_fill but require that at least one of the keys in <keys> exists in entry.
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :param keys: data keys to use
+    :return None
+    """
     _require_keys_in_entry(entry, keys, req_all=False)
 
     for k in keys:
@@ -229,6 +339,12 @@ def _simple_fill_one_of(r, entry, keys):
 
 
 def _fill_author(r, entry):
+    """
+    Make a "named entry" dict with an author field
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     if 'author' not in entry:
         return
 
@@ -236,6 +352,12 @@ def _fill_author(r, entry):
 
 
 def _fill_editor(r, entry):
+    """
+    Make a "named entry" dict with an editor field
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     if 'editor' not in entry:
         return
 
@@ -243,6 +365,12 @@ def _fill_editor(r, entry):
 
 
 def _fill_publisher(r, entry):
+    """
+    Make a "named entry" dict with a publisher field
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     if 'publisher' not in entry:
         return
 
@@ -255,18 +383,33 @@ def _fill_publisher(r, entry):
 
 
 def _fill_named_entry(r, entry, k):
+    """
+    Make a "named entry" dict with the name from the field with key <k>
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :param k: field to use for the name
+    :return None
+    """
     r[k] = [{'name': n} for n in entry[k]]
 
 
 def _fill_journal(r, entry):
+    """
+    Make a "journal" dict
+    :param r: BibJSON record dict that will be filled
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :return None
+    """
     if 'journal' not in entry or 'volume' not in entry:
         return
 
+    # fill with required fields
     r['journal'] = {
         'name': entry['journal'],
         'volume': entry['volume']
     }
 
+    # fill optional fields
     opt_keys = ('number', 'pages', 'month')
     for k in opt_keys:
         if k in entry:
@@ -274,6 +417,13 @@ def _fill_journal(r, entry):
 
 
 def _require_keys_in_entry(entry, keys, req_all):
+    """
+    Require at least one or all keys in <keys> to be found in <entry>. If not, call logging.error().
+    :param entry: bibtexparser entry that will be used to fill the BibJSON record
+    :param keys: keys to check
+    :param req_all: True: require all keys to be in <entry>, False: require at least one key to be in <entry>
+    :return None
+    """
     keys_in_entry = [k in entry for k in keys]
     if (req_all and not all(keys_in_entry)) or (not req_all and not any(keys_in_entry)):
         logging.error("entry '%s': %s of the required keys '%s' not found in record"
