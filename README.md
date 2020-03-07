@@ -33,3 +33,7 @@ BibJSON is still a draft (as of Feb. 2016) and the final format is not yet defin
 
 * http://wiki.okfn.org/Projects/openbibliography/bibjson/common
 * http://okfnlabs.org/bibjson/
+
+## License
+
+The source-code is provided under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) (see `LICENSE` file).
